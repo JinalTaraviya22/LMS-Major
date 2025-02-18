@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- Main Content -->
+<div class="main-content">
+    <div class="header">
+        <h1 class="page-title">Admin Dashboard</h1>
+        <div class="user-section">
+            <span class="material-icons">notifications</span>
+            <button class="material-icons btn">logout</button>
+        </div>
+    </div>
+
+    <!-- Add Students and Teachers Buttons -->
+    <div class="admin-actions" style="margin-bottom: 20px;">
+        <button class="btn btn-primary">Add Users</button>
+    </div>
+
+    <div class="dashboard-cards">
+        <div class="stat-card">
+            <h3>120</h3>
+            <p>Total Students</p>
+        </div>
+        <div class="stat-card">
+            <h3>15</h3>
+            <p>Total Courses</p>
+        </div>
+        <div class="stat-card">
+            <h3>8</h3>
+            <p>Total Teachers</p>
+        </div>
+        <div class="stat-card">
+            <h3>25</h3>
+            <p>Pending Assignments</p>
+        </div>
+    </div>
+</div>

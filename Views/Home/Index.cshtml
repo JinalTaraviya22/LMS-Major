@@ -1,0 +1,166 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* <div class="text-center"> *@
+@*     <h1 class="display-4">Welcome</h1> *@
+@*     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
+@* </div> *@
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Header -->
+    <div class="header">
+        <h1 class="page-title">My Courses</h1>
+        <div class="user-section">
+            @* <div class="search-container"> *@
+            @*     <i class="fas fa-search search-icon"></i> *@
+            @*     <input type="text" *@
+            @*            class="search-input" *@
+            @*            placeholder="Search here..." /> *@
+            @*     <button class="search-button">search</button> *@
+            @* </div> *@
+            <span class="material-icons">notifications</span>
+            <button class="assignment-button">
+                <span class="material-icons">assignment</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Course Cards -->
+    <div class="course-list">
+        <!-- Operating System Card -->
+        <div class="course-card">
+            <div class="card-content">
+                <div class="card-image">
+                    <img src="~/Image/marty.jpg" alt="Course Cover" />
+                </div>
+                <div class="card-text">
+                    <h2>Operating System</h2>
+                    <p>Course Code: MCA055</p>
+                    <p>2024-25 (Even Term)</p>
+                    <div class="created-by">Created by Mark Lee</div>
+                </div>
+                <a asp-area="" asp-controller="Home" asp-action="Modules">
+                    <button class="arrow-button">
+                        <span class="material-icons">arrow_forward</span>
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <!-- AI Card -->
+        <div class="course-card">
+            <div class="card-content">
+                <div class="card-image">
+                    <img src="~/Image/Screenshot (51).png" alt="Course Cover" />
+                </div>
+                <div class="card-text">
+                    <h2>Artificial Intelligence</h2>
+                    <p>
+                        Intelligence demonstrated by machines, unlike the natural
+                        intelligence displayed by humans and animals.
+                    </p>
+                    <div class="created-by">Created by Jung Jaehyun</div>
+                </div>
+                <button class="arrow-button">
+                    <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Software Engineering Card -->
+        <div class="course-card">
+            <div class="card-content">
+                <div class="card-image">
+                    <img src="~/Image/wallpaperflare.com_wallpaper.jpg" alt="Course Cover" />
+                </div>
+                <div class="card-text">
+                    <h2>Software Engineering</h2>
+                    <p>
+                        Learn detailed of engineering to the design, development and
+                        maintenance of software.
+                    </p>
+                    <div class="created-by">Created by John Doe</div>
+                </div>
+                <button class="arrow-button">
+                    <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Data Structure Card -->
+        <div class="course-card">
+            <div class="card-content">
+                <div class="card-image">
+                    <img src="~/Image/yuta.jpg" alt="Course Cover" />
+                </div>
+                <div class="card-text">
+                    <h2>Data Structures</h2>
+                    <p>
+                        Master fundamental data structures and algorithms essential
+                        for efficient programming and problem-solving.
+                    </p>
+                    <div class="created-by">Created by Sarah Chen</div>
+                </div>
+                <button class="arrow-button">
+                    <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assignments Section -->
+<div class="assignments">
+    <div class="assignments-content">
+        <section class="upcoming-tasks">
+            <h2>Upcoming Tasks</h2>
+
+            <div class="task-card">
+                <span class="due-tag due-tomorrow">Due Tomorrow</span>
+                <h3>OOP Assignment #3</h3>
+                <p>Implementation of Design Patterns</p>
+            </div>
+
+            <div class="task-card">
+                <span class="due-tag due-next-week">Due Next Week</span>
+                <h3>Database Quiz</h3>
+                <p>Chapter 5: Normalization</p>
+            </div>
+        </section>
+
+        <section class="recent-activity">
+            <h2>Recent Activity</h2>
+
+            <div class="activity-card">
+                <h3>Enterprise Computing</h3>
+                <p>Lab Report Submitted</p>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    
+    // Toggle assignments panel
+        document.addEventListener("DOMContentLoaded", function () {
+        const assignmentButton = document.querySelector(".assignment-button");
+        const assignments = document.querySelector(".assignments");
+
+        if (assignmentButton && assignments) {
+            assignmentButton.addEventListener("click", (e) => {
+                e.stopPropagation(); // Prevent click from closing immediately
+                assignments.classList.toggle("active");
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!assignments.contains(e.target) && !assignmentButton.contains(e.target)) {
+                    assignments.classList.remove("active");
+                }
+            });
+        }
+    });
+</script>
+

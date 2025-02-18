@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewData["Title"] = "Quiz";
+}
+
+<!-- Main Content -->
+<div class="content-wrapper">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="#">Courses</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="#">Web Development</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Module 1 Quiz</span>
+    </div>
+
+    <!-- Quiz Header -->
+    <div class="content-card">
+        <div class="header">
+            <div>
+                <h1 class="content-title">Module 1: HTML Fundamentals Quiz</h1>
+                <div class="semester-tag">
+                    <i class="fas fa-clock"></i> Time Remaining: 30:00
+                </div>
+            </div>
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span>Progress: 3/10 Questions</span>
+                    <span>30%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Question -->
+        <div style="margin-top: 30px;">
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #3f3f6e; margin-bottom: 10px;">Question 3 of 10</h3>
+                <p style="font-size: 18px; color: #333; margin-bottom: 20px;">Which HTML tag is used to create a hyperlink?</p>
+            </div>
+
+            <!-- Answer Options -->
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <label class="input-field" style="padding: 15px; cursor: pointer;">
+                    <input type="radio" name="answer" style="margin-right: 10px;">
+                    <span>&lt;link&gt;</span>
+                </label>
+                <label class="input-field" style="padding: 15px; cursor: pointer;">
+                    <input type="radio" name="answer" style="margin-right: 10px;">
+                    <span>&lt;a&gt;</span>
+                </label>
+                <label class="input-field" style="padding: 15px; cursor: pointer;">
+                    <input type="radio" name="answer" style="margin-right: 10px;">
+                    <span>&lt;href&gt;</span>
+                </label>
+                <label class="input-field" style="padding: 15px; cursor: pointer;">
+                    <input type="radio" name="answer" style="margin-right: 10px;">
+                    <span>&lt;url&gt;</span>
+                </label>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="content-navigation" style="margin-top: 30px;">
+                <button class="previous-lesson">
+                    <i class="fas fa-arrow-left"></i> Previous Question
+                </button>
+                <button class="next-lesson">
+                    Next Question <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Navigation Card -->
+    <div class="content-card" style="margin-top: 20px;">
+        <h3 style="margin-bottom: 20px; color: #3f3f6e;">Question Navigation</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 10px;">
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px; background: #4a4aff; color: white;">1</button>
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px; background: #4a4aff; color: white;">2</button>
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px; background: #3f3f6e; color: white;">3</button>
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px;">4</button>
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px;">5</button>
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px;">6</button>
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px;">7</button>
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px;">8</button>
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px;">9</button>
+            <button class="btn btn-soft" style="width: 45px; height: 45px; font-size: 16px;">10</button>
+        </div>
+        <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+            <button class="btn btn-gradient" style="padding: 12px 24px;">Submit Quiz</button>
+        </div>
+    </div>
+</div>
+

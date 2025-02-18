@@ -1,0 +1,197 @@
+﻿@{
+    ViewData["Title"] = "Modules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-List">
+    <!-- Header -->
+    <div class="course-header">
+        <div class="course-tabs">
+            <div class="tab-item" data-tab="grades">Syllabus</div>
+            <div class="tab-item active" data-tab="modules">Modules</div>
+            <div class="tab-item" data-tab="resources">Resources</div>
+            <div class="tab-item" data-tab="discussions">Discussions</div>
+            <div class="tab-item" data-tab="assignment">Assignment</div>
+            <div class="tab-item" data-tab="quizes">Quizes</div>
+        </div>
+    </div>
+
+    <div class="tab-content active" id="modules-content">
+        <div class="course-header">
+            <a href="Dashboard.html" class="back-button">
+                <span class="material-icons">arrow_back</span>
+                Back to Courses
+            </a>
+            <h1 class="course-title">Operating Systems</h1>
+            <p>By Mark Lee</p>
+            <div class="course-info">
+                <div class="info-item">
+                    <span class="material-icons">library_books</span>
+                    6 modules
+                </div>
+            </div>
+        </div>
+        <!-- Existing Modules List -->
+        <div class="modules-list">
+            <!-- Module 1 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-title">
+                        <i class="fa fa-layer-group"></i>
+                        <div>
+                            <h3>Module 1: Introduction to Operating Systems</h3>
+                            <small>4 lessons • 2 hours</small>
+                        </div>
+                    </div>
+                    <span class="material-icons">expand_more</span>
+                </div>
+                <div class="module-content active">
+                    <!-- modules -->
+                    <a asp-area="" asp-controller="Home" asp-action="Content">
+                        <div class="lesson-list">
+                            <div class="lesson-item">
+                                <i class="fa fa-file-alt"></i>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">
+                                        What is an Operating System?
+                                    </div>
+                                    <div class="lesson-meta">
+                                        <div>45 minutes</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a asp-area="" asp-controller="Home" asp-action="Quiz">
+                        <div class="lesson-list">
+                            <div class="lesson-item">
+                                <i class="fa fa-question-circle"></i>
+                                <div class="lesson-info">
+                                    <div class="lesson-title">
+                                        Quiz : 1 HTML basics
+                                    </div>
+                                    <div class="lesson-meta">
+                                        <div>45 minutes</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- modules end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="resources-content">
+        <div class="course-header">
+            <div class="resources-container">
+                <h2>Course Resources</h2>
+                <ul>
+                    <li>Textbook PDF</li>
+                    <li>Lecture Slides</li>
+                    <li>Additional Reading Materials</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="discussions-content">
+        <div class="course-header">
+            <div class="discussions-container">
+                <h2>Course Discussions</h2>
+                <div class="discussion-thread">
+                    <p>No active discussions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="grades-content">
+        <div class="course-header">
+            <div class="grades-container">
+                <h2>Your Grades</h2>
+                <table>
+                    <tr>
+                        <th>Assignment</th>
+                        <th>Grade</th>
+                    </tr>
+                    <tr>
+                        <td>Midterm Exam</td>
+                        <td>85%</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assignments Section -->
+    <div class="tab-content" id="assignment-content">
+        <div class="course-header">
+            <div class="assignment-content">
+                <section class="upcoming-tasks">
+                    <h2>Upcoming Tasks</h2>
+                    <div class="task-card">
+                        <span class="due-tag due-tomorrow">Due Tomorrow</span>
+                        <h3>OOP Assignment #3</h3>
+                        <p>Implementation of Design Patterns</p>
+                    </div>
+                    <div class="task-card">
+                        <span class="due-tag due-next-week">Due Next Week</span>
+                        <h3>Database Quiz</h3>
+                        <p>Chapter 5: Normalization</p>
+                    </div>
+                </section>
+                <section class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-card">
+                        <h3>Enterprise Computing</h3>
+                        <p>Lab Report Submitted</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const moduleHeaders = document.querySelectorAll(".module-header");
+    moduleHeaders.forEach((header) => {
+      header.addEventListener("click", () => {
+        const content = header.nextElementSibling;
+        if (content && content.classList.contains("module-content")) {
+          content.classList.toggle("active");
+          const icon = header.querySelector(".material-icons:last-child");
+          icon.textContent = content.classList.contains("active")
+            ? "expand_less"
+            : "expand_more";
+        }
+      });
+    });
+
+    // Initial check and add resize listener - tab contents
+            document.addEventListener("DOMContentLoaded", function () {
+        // console.log("DOM fully loaded and parsed"); Debugging line to check if it's firing
+        const tabs = document.querySelectorAll(".tab-item");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                tabs.forEach((t) => t.classList.remove("active"));
+                tabContents.forEach((tc) => tc.classList.remove("active"));
+
+                tab.classList.add("active");
+
+                const tabId = tab.getAttribute("data-tab");
+                const content = document.getElementById(`${tabId}-content`);
+
+                if (content) {
+                    content.classList.add("active");
+                } else {
+                    console.error(`Tab content not found: ${tabId}-content`);
+                }
+            });
+        });
+    });
+
+</script>

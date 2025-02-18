@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Major</title>
+    <link rel="icon" type="image/png" href="~/Image/TabLogo.png" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/Major.styles.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo"><img src="~/Image/logoBg2.png" class="logo-img" /></div>
+            <div class="nav-links">
+                <button class="nav-button">
+                    <a asp-area="" asp-controller="Admin" asp-action="AdIndex"><i class="fas fa-chart-line"></i></a>
+                </button>
+                <button class="nav-button">
+                    <a href="ManageCourses.html"><i class="fas fa-book"></i></a>
+                </button>
+                <button class="nav-button">
+                    <a href="ManageUsers.html"><i class="fas fa-users"></i></a>
+                </button>
+                <button class="nav-button">
+                    <a href="Assignments.html"><i class="fas fa-tasks"></i></a>
+                </button>
+                <button class="nav-button">
+                    <a href="Announcements.html"><i class="fas fa-bullhorn"></i></a>
+                </button>
+            </div>
+            <a href="AdminProfile.html">
+                <div class="user-avatar-nav"></div>
+            </a>
+        </div>
+
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>
