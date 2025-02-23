@@ -7,6 +7,15 @@ internal class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
+        //Session code
+        builder.Services.AddDistributedMemoryCache(); // Required for session
+        builder.Services.AddSession(options =>
+        {
+            //options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -17,6 +26,7 @@ internal class Program
             app.UseHsts();
         }
 
+        app.UseSession();//for sessions
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 

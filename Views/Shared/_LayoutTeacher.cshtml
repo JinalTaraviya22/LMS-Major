@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Major</title>
+    <link rel="icon" type="image/png" href="~/Image/TabLogo.png" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/Major.styles.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet" />
+</head>
+<body>
+    <!-- Burger Menu -->
+    <button class="burger-menu d-md-none">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="container-fluid px-0">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="nav-links">
+                <div class="logo">
+                    <a asp-area="" asp-controller="Teacher" asp-action="TeachIndex"><img src="~/Image/logoBg2.png" class="logo-img" /></a>
+                </div>
+                <button class="nav-button active">
+                    <a href="TeacherDashboard.html"><i class="fas fa-home"></i></a>
+                </button>
+                <button class="nav-button">
+                    <a href="TeacherCourses.html"><i class="fas fa-chalkboard-teacher"></i></a>
+                </button>
+                <button class="nav-button">
+                    <a href="TeacherCalendar.html"><i class="fas fa-calendar-alt"></i></a>
+                </button>
+                <button class="nav-button">
+                    <a href="TeacherGrades.html"><i class="fas fa-graduation-cap"></i></a>
+                </button>
+                <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
+                    <button class="nav-button">
+                        <a href="Announcements.html"><i class="fa fa-sign-out-alt"></i></a>
+                    </button>
+                </form>
+            </div>
+            <a href="TeacherProfile.html">
+                <div class="user-avatar-nav"></div>
+            </a>
+        </div>
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/aspnetmvc/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/aspnetmvc/jquery.validate.unobtrusive.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

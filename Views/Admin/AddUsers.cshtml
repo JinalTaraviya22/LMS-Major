@@ -1,0 +1,89 @@
+﻿@model AdminModel
+@{
+    ViewData["Title"] = "AddUsers";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Main Content -->
+<div class="main-content">
+        @if (TempData["msg"] != null)
+        {
+            <div class="alert alert-info">@TempData["msg"]</div>
+        }
+    <div class="header">
+        <h1 class="page-title">Add User</h1>
+    </div>
+
+    <!-- Tabs for Adding Users -->
+    <div class="course-tabs" style="margin-bottom: 20px;justify-content:center">
+        <div class="tab-item active" data-tab="students">Add Student</div>
+        <div class="tab-item" data-tab="teachers">Add Teacher</div>
+    </div>
+
+    <div class="tab-content active" id="students-content">
+        <form method="post" asp-action="AddUsers">
+            <input type="hidden" asp-for="Role" value="Student" />
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" asp-for="Name" placeholder="Enter student name" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" asp-for="Email" placeholder="Enter student email" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" asp-for="Password" placeholder="Enter password" required />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Student</button>
+        </form>
+    </div>
+
+    <div class="tab-content" id="teachers-content">
+        <form method="post" asp-action="AddUsers">
+            <input type="hidden" asp-for="Role" value="Teacher" />
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" asp-for="Name" placeholder="Enter teacher name" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" asp-for="Email" placeholder="Enter teacher email" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" asp-for="Password" placeholder="Enter password" required />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Teacher</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Tab switching functionality
+    const tabs = document.querySelectorAll(".tab-item");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            tabs.forEach((t) => t.classList.remove("active"));
+            tabContents.forEach((tc) => tc.classList.remove("active"));
+
+            tab.classList.add("active");
+            const tabId = tab.getAttribute("data-tab") + "-content";
+            document.getElementById(tabId).classList.add("active");
+        });
+    });
+</script>

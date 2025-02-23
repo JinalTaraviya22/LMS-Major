@@ -29,6 +29,7 @@ namespace Major.Models
                     {
                         um.Id = Convert.ToInt32(dr["Id"]);
                         um.Email = dr["Email"].ToString();
+                        um.Name = dr["Name"].ToString();
                         um.Role = dr["Role"].ToString();
                     }
 

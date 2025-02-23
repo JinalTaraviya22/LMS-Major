@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");
 
+
 /* Base Styles */
 
 * {
@@ -22,8 +23,12 @@ a {
 }
 
 .container {
-/*    display: flex;*/
+    display: flex;
     min-height: 100vh;
+}
+
+.container-fluid {
+    overflow-x: hidden;
 }
 
 /* Sidebar Styles */
@@ -40,7 +45,7 @@ a {
     align-items: center;
     gap: 30px;
     border-radius: 0 25px 25px 0;
-    z-index: 100;
+    z-index: 1500;
     transition: all 0.3s ease;
 }
 
@@ -511,31 +516,50 @@ button:hover {
     color: #38a169;
 }
 
+.close-assignments {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .close-assignments:hover {
+        color: red;
+    }
+
+
 /* Burger Menu Styles */
 .burger-menu {
-    display: none;
+    display: none; /* Hidden by default on larger screens */
     position: fixed;
     top: 20px;
     left: 20px;
-    z-index: 1000;
-    background: none;
+    /* background: #363636; */
+    color: rgb(0, 0, 0);
     border: none;
+    padding: 10px 15px;
+    font-size: 24px;
     cursor: pointer;
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    border-radius: 50%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 2000;
+    transition: opacity 0.3s ease-in-out;
 }
+
+
+    /* Add hover state */
+    .burger-menu:hover {
+        background-color: #f5f5f5;
+    }
 
     .burger-menu i {
         font-size: 24px;
         color: #333;
     }
 
-    .burger-menu:hover {
-        background-color: #f5f2ef;
-    }
 
 /* Media Queries */
 @media (max-width: 1200px) {
@@ -546,46 +570,147 @@ button:hover {
     .profile-stats {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .burger-menu {
+        display: none;
+    }
+}
+
+
+@media (max-width: 992px) {
+    .main-content {
+        padding: 20px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+    }
+
+    .user-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .search-container {
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
+    .burger-menu {
+        display: block; /* Make it visible */
+    }
+
     .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
+        position: fixed;
+        left: -250px; /* Hide sidebar initially */
+        width: 70px;
+        height: 100vh;
+        background: #ffffff;
+        transition: left 0.3s ease-in-out;
     }
 
         .sidebar.active {
-            transform: translateX(0);
+            left: 0; /* Slide in when active */
         }
+
+            .sidebar.active + .burger-menu {
+                display: none;
+            }
 
     .main-content {
         margin-left: 0;
-        padding: 20px;
+        padding-top: 80px;
     }
 
-    .course-list {
-        grid-template-columns: 1fr;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .profile-header {
+    .user-section {
         flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    .user-section {
+        flex-direction: row !important; /* Keep buttons in a row */
+        justify-content: flex-end;
+        margin-top: 0;
+    }
+
+    .header {
+        flex-direction: row !important; /* Keep header items in a row */
+        align-items: center !important;
+        margin-bottom: 30px;
+    }
+
+    /* Hide burger button when sidebar is active */
+    .sidebar.active + .burger-menu {
+        display: none;
+    }
+
+    .assignments.active + .burger-menu {
+        display: none;
+    }
+
+    .container-List {
+        margin-left: 0px;
+        padding-top: 80px;
+    }
+
+    .course-tabs {
+        justify-content: flex-start; /* Left align on mobile */
+        padding: 6px;
+        gap: 4px;
+        margin: 0 -8px;
+    }
+
+    .tab-item {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 576px) {
+    .header {
         text-align: center;
     }
 
-    .burger-menu {
-        display: block !important;
+    .page-title {
+        margin-bottom: 15px;
     }
 
-    .container {
-        margin-left: 0;
-        max-width: 100%;
-        padding: 20px;
+    .container-List {
+        margin-left: 0px;
+        padding-top: 80px;
+    }
+
+    .tab-item {
+        padding: 6px 10px;
+        font-size: 12px;
     }
 }
+
+/* Fix for card heights */
+.course-card {
+    height: 100% !important;
+}
+
+.card-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-text {
+    flex-grow: 1;
+}
+
+/* Ensure images are responsive */
+.img-fluid {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 
 /* ModuleList css */
 
@@ -602,6 +727,10 @@ button:hover {
     padding: 24px;
     margin-bottom: 24px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+/*    justify-content: center;*/
+    width: 100%;
+    padding: 20px;
 }
 
 .back-button {
@@ -716,21 +845,6 @@ button:hover {
     border-left: 1px solid #eee;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
     z-index: 99;
-}
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .container {
-        max-width: calc(100% - 80px);
-    }
-
-    .assignments {
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    }
-
-        .assignments.active {
-            transform: translateX(0);
-        }
 }
 
 /* CourseList */
@@ -954,29 +1068,6 @@ button:hover {
         font-size: 14px;
         color: #333;
     }
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .calendar-header {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .calendar-navigation,
-    .view-options {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .calendar-day {
-        min-height: 60px;
-        font-size: 14px;
-    }
-
-    .calendar-weekdays {
-        font-size: 14px;
-    }
-}
 /* Tab Header Styles
 .course-tabs {
   display: flex;
@@ -1033,18 +1124,23 @@ button:hover {
     white-space: nowrap;
     background: linear-gradient(to right, #f8f9fa, #e9ecef);
     border-radius: 8px;
-    padding: 10px;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    scrollbar-width: thin;
-    scrollbar-color: #ccc #f8f9fa;
+    padding: 8px;
+    gap: 6px;
+    margin: 0 -8px; /* Negative margin to counter parent padding */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+/*    justify-content:center;*/
 }
 
-    /* Custom Scrollbar for Webkit Browsers */
+    /* Hide scrollbar for Chrome, Safari and Opera */
     .course-tabs::-webkit-scrollbar {
-        height: 6px;
+        display: none;
     }
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.course-tabs {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
 
     .course-tabs::-webkit-scrollbar-thumb {
         background-color: #888;
@@ -1057,16 +1153,17 @@ button:hover {
 
 /* Tab Items */
 .tab-item {
-    padding: 12px 18px;
+    padding: 10px 16px;
     cursor: pointer;
     border-radius: 6px;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     transition: all 0.3s ease;
     color: #555;
     background: #ffffff;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
+    flex-shrink: 0; /* Prevent tabs from shrinking */
 }
 
     .tab-item:hover {
@@ -1158,6 +1255,7 @@ button:hover {
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
+    width:100%;
 }
 
 
@@ -1248,11 +1346,6 @@ button:hover {
         margin-left: 4px;
     }
 
-@media (max-width: 480px) {
-    .login-card {
-        padding: 24px;
-    }
-}
 
 .content-wrapper {
     padding: 24px;
@@ -1345,21 +1438,6 @@ code {
     font-family: monospace;
     font-size: 14px;
     color: #333;
-}
-
-@media (max-width: 768px) {
-    .content-wrapper {
-        margin-left: 0;
-        padding: 16px;
-    }
-
-    .content-card {
-        padding: 24px;
-    }
-
-    .content-title {
-        font-size: 24px;
-    }
 }
 
 /* Content Navigation Buttons */

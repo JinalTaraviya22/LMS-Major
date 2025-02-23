@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewData["Title"] = "TeachIndex";
+    Layout = "~/Views/Shared/_LayoutTeacher.cshtml";
+}
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Header -->
+    <div class="header">
+        <h1 class="page-title">Teacher Dashboard</h1>
+        <div class="user-section">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search courses, students...">
+                <button class="search-button">Search</button>
+            </div>
+            <button class="nav-button previous-lesson">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="profile-stats">
+        <div class="stat-card">
+            <h3>4</h3>
+            <p>Active Courses</p>
+        </div>
+        <div class="stat-card">
+            <h3>156</h3>
+            <p>Total Students</p>
+        </div>
+        <div class="stat-card">
+            <h3>12</h3>
+            <p>Pending Assignments</p>
+        </div>
+        <div class="stat-card">
+            <h3>89%</h3>
+            <p>Average Performance</p>
+        </div>
+    </div>
+
+    <!-- Course Cards -->
+    <div class="row g-4">
+        <!-- Operating System Card -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="course-card h-100">
+                <div class="card-content">
+                    <div class="card-image">
+                        <img src="~/Image/Screenshot (51).png"
+                             alt="Course Cover"
+                             class="img-fluid" />
+                    </div>
+                    <div class="card-text">
+                        <h2>Operating System</h2>
+                        <p>Course Code: MCA055</p>
+                        <p>2024-25 (Even Term)</p>
+                        <div class="created-by">Created by Mark Lee</div>
+                    </div>
+                    <a href="ModuleList.html">
+                        <button class="arrow-button">
+                            <span class="material-icons">arrow_forward</span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Database Management Course -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="course-card h-100">
+                <div class="card-content">
+                    <div class="card-image">
+                        <img src="~/Image/marty.jpg"
+                             alt="Course Cover"
+                             class="img-fluid" />
+                    </div>
+                    <div class="card-text">
+                        <h2>Operating System</h2>
+                        <p>Course Code: MCA055</p>
+                        <p>2024-25 (Even Term)</p>
+                        <div class="created-by">Created by Mark Lee</div>
+                    </div>
+                    <a href="ModuleList.html">
+                        <button class="arrow-button">
+                            <span class="material-icons">arrow_forward</span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Scripts -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const burgerMenu = document.querySelector(".burger-menu");
+      const sidebar = document.querySelector(".sidebar");
+
+      if (burgerMenu && sidebar) {
+        burgerMenu.addEventListener("click", function(e) {
+          e.stopPropagation();
+          sidebar.classList.toggle("active");
+
+          // Hide burger button when sidebar is active
+          if (sidebar.classList.contains("active")) {
+            burgerMenu.style.display = "none";
+          }
+        });
+
+        // Close sidebar when clicking outside and show burger button again
+        document.addEventListener("click", function(e) {
+          if (!sidebar.contains(e.target) && !burgerMenu.contains(e.target)) {
+            sidebar.classList.remove("active");
+            burgerMenu.style.display = "block";
+          }
+        });
+      }
+
+      // Initial check and add resize listener
+      window.addEventListener("resize", function() {
+        if (window.innerWidth > 768) {
+          sidebar.classList.remove("active");
+          burgerMenu.style.display = "none";
+        } else {
+          burgerMenu.style.display = "block";
+        }
+      });
+    });
+</script>

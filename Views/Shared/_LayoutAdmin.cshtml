@@ -11,13 +11,21 @@
     <link rel="stylesheet" href="~/css/style.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body>
-    <div class="container">
+    <button class="burger-menu d-md-none">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="container-fluid px-0">
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="logo"><img src="~/Image/logoBg2.png" class="logo-img" /></div>
             <div class="nav-links">
+                <div class="logo nav-button">
+                    <a asp-area="" asp-controller="Admin" asp-action="AdIndex"> <img src="~/Image/logoBg2.png" class="logo-img" /></a>
+                </div>
                 <button class="nav-button">
                     <a asp-area="" asp-controller="Admin" asp-action="AdIndex"><i class="fas fa-chart-line"></i></a>
                 </button>
@@ -25,23 +33,57 @@
                     <a href="ManageCourses.html"><i class="fas fa-book"></i></a>
                 </button>
                 <button class="nav-button">
-                    <a href="ManageUsers.html"><i class="fas fa-users"></i></a>
-                </button>
-                <button class="nav-button">
-                    <a href="Assignments.html"><i class="fas fa-tasks"></i></a>
+                    <a asp-area="" asp-controller="Admin" asp-action="ManageUsers"><i class="fas fa-users"></i></a>
                 </button>
                 <button class="nav-button">
                     <a href="Announcements.html"><i class="fas fa-bullhorn"></i></a>
                 </button>
+                <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
+                    <button class="nav-button">
+                        <a href="Announcements.html"><i class="fa fa-sign-out-alt"></i></a>
+                    </button>
+                </form>
             </div>
             <a href="AdminProfile.html">
                 <div class="user-avatar-nav"></div>
             </a>
         </div>
 
-        <div class="container">
+        @* <div class="container"> *@
+        @*     @RenderBody() *@
+        @* </div> *@
+        <main role="main" class="pb-3">
             @RenderBody()
-        </div>
+        </main>
     </div>
+
+    <script>
+          document.addEventListener("DOMContentLoaded", function () {
+          const burgerMenu = document.querySelector(".burger-menu");
+          const sidebar = document.querySelector(".sidebar");
+
+          if (burgerMenu && sidebar) {
+            burgerMenu.addEventListener("click", function (e) {
+              e.stopPropagation();
+              sidebar.classList.toggle("active");
+
+              // Hide burger button when sidebar is active
+              if (sidebar.classList.contains("active")) {
+                burgerMenu.style.display = "none";
+              }
+            });
+
+            // Close sidebar when clicking outside and show burger button again
+            document.addEventListener("click", function (e) {
+              if (!sidebar.contains(e.target) && !burgerMenu.contains(e.target)) {
+                sidebar.classList.remove("active");
+                burgerMenu.style.display = "block"; // Show burger button again
+              }
+            });
+          }
+        });
+
+    </script>
+
 </body>
 </html>

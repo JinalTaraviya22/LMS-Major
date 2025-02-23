@@ -1,4 +1,5 @@
 ﻿using Major.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Major.Controllers
@@ -16,13 +17,19 @@ namespace Major.Controllers
             bool authCheck = umodel.CheckUser(user);
             if (authCheck)
             {
+                //session set
+                HttpContext.Session.SetInt32("UserId", user.Id);
+                HttpContext.Session.SetString("UserEmail", user.Email);
+                HttpContext.Session.SetString("UserName",user.Name);
+                HttpContext.Session.SetString("UserRole",user.Role);
+
                 if (user.Role == "Student")
                 {
                     return RedirectToAction("Index", "Home");
                 }
                 else if (user.Role == "Teacher")
                 {
-                    return RedirectToAction("Index", "Teacher");
+                    return RedirectToAction("TeachIndex", "Teacher");
                 }
                 else if (user.Role == "Admin")
                 {
@@ -38,6 +45,14 @@ namespace Major.Controllers
                 ViewData["ErrorMessage"] = "Invalid email or password.";
                 return View(user);
             }
+        }
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear(); // Clear session
+            HttpContext.SignOutAsync();  // Sign out if using authentication
+
+            return RedirectToAction("Login", "Auth");
         }
     }
 }

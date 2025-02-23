@@ -1,0 +1,113 @@
+﻿@model List<Major.Models.AdminModel>
+@{
+    ViewData["Title"] = "ManageUsers";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- Main Content -->
+<div class="col">
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header row align-items-center mb-4">
+            <div class="col-md-4">
+                <h1 class="page-title">Manage Users</h1>
+            </div>
+            <div class="col-md-8">
+                <div class="user-section d-flex align-items-center justify-content-end flex-wrap">
+                    <div class="search-container flex-grow-1 me-3">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search users..." />
+                        <button class="search-button">search</button>
+                    </div>
+                    <a class="btn btn-primary me-2" asp-area="" asp-controller="Admin" asp-action="AddUsers">
+                        <i class="fas fa-user-plus" style="color: azure;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Management Tabs -->
+        @* <div class="course-tabs mb-4" style="justify-content:center"> *@
+        @*     <div class="tab-item active" data-tab="students">Students</div> *@
+        @*     <div class="tab-item" data-tab="instructors">Instructors</div> *@
+        @*     <div class="tab-item" data-tab="admins">Administrators</div> *@
+        @* </div> *@
+
+        <!-- Users Table -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <h6 class="mb-0">@user.Name</h6>
+                                                    <small class="text-muted">ID:@user.Id</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>@user.Email</td>
+                                        <td><span class="badge bg-primary">@user.Role</span></td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-soft btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-ghost btn-sm text-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tab switching functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.tab-item');
+
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+          });
+        });
+      });
+</script>
+
