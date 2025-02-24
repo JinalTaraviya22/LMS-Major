@@ -6,6 +6,10 @@
 <!-- Main Content -->
 <div class="col">
     <div class="main-content">
+        @if (TempData["msg"] != null)
+        {
+            <div class="alert alert-info">@TempData["msg"]</div>
+        }
         <!-- Header -->
         <div class="header row align-items-center mb-4">
             <div class="col-md-4">
@@ -64,14 +68,18 @@
                                         </td>
                                         <td>@user.Email</td>
                                         <td><span class="badge bg-primary">@user.Role</span></td>
-                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td><span class="badge bg-success">@user.Status</span></td>
                                         <td>
-                                            <button class="btn btn-soft btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                                            <button class="btn btn-soft btn-sm me-2 edit-user-btn" data-bs-toggle="modal" data-bs-target="#editUserModal"
+                                                    data-user-id="@user.Id" data-name="@user.Name" data-email="@user.Email" data-role="@user.Role" data-status="@user.Status">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-ghost btn-sm text-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            @* <button class="btn btn-soft btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editUserModal">  *@
+                                            @*     <i class="fas fa-edit"></i>  *@
+                                            @* </button> *@
+                                            @* <button class="btn btn-ghost btn-sm text-danger"> *@
+                                            @*     <i class="fas fa-trash"></i> *@
+                                            @* </button> *@
                                         </td>
                                     </tr>
                                 }
@@ -118,11 +126,52 @@
                         }
                     </ul>
                 </nav>
-
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm" method="post" action="@Url.Action("EditUser", "Admin")">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="editUserId" name="Id" />
+                    <div class="mb-3">
+                        <label for="editUserName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="editUserName" name="Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUserEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editUserEmail" name="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUserRole" class="form-label">Role</label>
+                        <select class="form-select" id="editUserRole" name="Role" required>
+                            <option value="Admin">Admin</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Student">Student</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUserStatus" class="form-label">Status</label>
+                        <select class="form-select" id="editUserRole" name="Status" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     // Tab switching functionality
@@ -136,5 +185,18 @@
           });
         });
       });
+
+      // Fill modal with user data when clicking "Edit"
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".edit-user-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                document.getElementById("editUserId").value = this.getAttribute("data-user-id");
+                document.getElementById("editUserName").value = this.getAttribute("data-name");
+                document.getElementById("editUserEmail").value = this.getAttribute("data-email");
+                document.getElementById("editUserRole").value = this.getAttribute("data-role");
+                document.getElementById("editUserStatus").value = this.getAttribute("data-status");
+            });
+        });
+    });
 </script>
 

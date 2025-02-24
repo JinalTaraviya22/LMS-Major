@@ -76,7 +76,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                @* <th>Actions</th> *@
                             </tr>
                         </thead>
                         <tbody>
@@ -92,12 +92,12 @@
                                         </div>
                                     </td>
                                     <td>@user.Email</td>
-                                    <td><span class="badge bg-success">Active</span></td>
-                                    <td>
-                                        <button class="btn btn-soft btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editUserModal">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </td>
+                                    <td><span class="badge bg-success">@user.Status</span></td>
+                                    @* <td> *@
+                                    @*     <button class="btn btn-soft btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editUserModal"> *@
+                                    @*         <i class="fas fa-edit"></i> *@
+                                    @*     </button> *@
+                                    @* </td> *@
                                 </tr>
                             }
                         </tbody>

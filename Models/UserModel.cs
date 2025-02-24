@@ -17,7 +17,7 @@ namespace Major.Models
         {
             if (um.Email != string.Empty && um.Password != string.Empty)
             {
-                SqlCommand cmd = new SqlCommand("select * from User_tbl where Email=@mail AND Password=@pwd", con);
+                SqlCommand cmd = new SqlCommand("select * from User_tbl where Email=@mail AND Password=@pwd And Status='Active'", con);
                 cmd.Parameters.AddWithValue("@mail", um.Email);
                 cmd.Parameters.AddWithValue("@pwd", um.Password);
                 con.Open();

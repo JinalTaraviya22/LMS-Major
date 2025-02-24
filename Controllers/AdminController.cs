@@ -78,5 +78,31 @@ namespace Major.Controllers
             }
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditUser(AdminModel user)
+        {
+            string? userRole = HttpContext.Session.GetString("UserRole");
+            if (userRole != "Admin")
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            Console.WriteLine($"Received: Id={user.Id}, Name={user.Name}, Email={user.Email}");
+
+                bool result = admin.UpdateUser(user);
+                if (result)
+                {
+                    TempData["msg"] = "User updated successfully!";
+                }
+                else
+                {
+                    TempData["msg"] = "Error updating user!";
+                }
+
+            return RedirectToAction("ManageUsers");
+        }
+
     }
 }
