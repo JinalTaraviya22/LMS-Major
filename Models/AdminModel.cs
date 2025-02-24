@@ -42,29 +42,89 @@ namespace Major.Models
             }
         }
 
-        public List<AdminModel> showData()
+        //public List<AdminModel> showData()
+        //{
+        //    List<AdminModel> userlist = new List<AdminModel>();
+
+        //    SqlCommand cmd = new SqlCommand("select * from User_tbl",con);
+        //    con.Open();
+        //    SqlDataReader dr = cmd.ExecuteReader();
+
+        //    while (dr.Read())
+        //    {
+        //        AdminModel user = new AdminModel()
+        //        {
+        //            Id = dr.GetInt32(0),
+        //            Name = dr.GetString(1),
+        //            Email = dr.GetString(2),
+        //            Password = dr.GetString(3),
+        //            Role = dr.GetString(4)
+        //        };
+        //        userlist.Add(user);
+        //    }
+        //    con.Close();
+        //    return userlist;
+        //}
+
+        public List<AdminModel> showData(string? role = null, string? searchQuery = null, int? limit = null)
         {
             List<AdminModel> userlist = new List<AdminModel>();
 
-            SqlCommand cmd = new SqlCommand("select * from User_tbl",con);
-            con.Open();
-            SqlDataReader dr = cmd.ExecuteReader();
+            string query = "SELECT * FROM User_tbl WHERE 1=1"; // Ensures flexible filtering
 
-            while (dr.Read())
+            if (!string.IsNullOrEmpty(role))
             {
-                AdminModel user = new AdminModel()
-                {
-                    Id = dr.GetInt32(0),
-                    Name = dr.GetString(1),
-                    Email = dr.GetString(2),
-                    Password = dr.GetString(3),
-                    Role = dr.GetString(4)
-                };
-                userlist.Add(user);
+                query += " AND Role = @role";
             }
-            con.Close();
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                query += " AND (Name LIKE @search OR Email LIKE @search OR Role LIKE @search)";
+            }
+
+            if (limit.HasValue)
+            {
+                query += " ORDER BY Id OFFSET 0 ROWS FETCH NEXT @limit ROWS ONLY"; // SQL Server pagination
+            }
+
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                if (!string.IsNullOrEmpty(role))
+                {
+                    cmd.Parameters.AddWithValue("@role", role);
+                }
+
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    cmd.Parameters.AddWithValue("@search", $"%{searchQuery}%");
+                }
+
+                if (limit.HasValue)
+                {
+                    cmd.Parameters.AddWithValue("@limit", limit);
+                }
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    AdminModel user = new AdminModel()
+                    {
+                        Id = dr.GetInt32(0),
+                        Name = dr.GetString(1),
+                        Email = dr.GetString(2),
+                        Password = dr.GetString(3),
+                        Role = dr.GetString(4)
+                    };
+                    userlist.Add(user);
+                }
+                con.Close();
+            }
+
             return userlist;
         }
+
     }
 }
 
