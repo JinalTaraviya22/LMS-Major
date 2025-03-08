@@ -1,4 +1,4 @@
-﻿@model List<Major.Models.AdminModel>
+﻿@model Major.Models.AdminDashboardViewModel
 @{
     ViewData["Title"] = "Admin Dashboard";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -43,19 +43,30 @@
     <!-- Add Students and Teachers Buttons -->
     <div class="admin-actions" style="margin-bottom: 20px;">
         <a class="btn btn-primary" asp-area="" asp-controller="Admin" asp-action="AddUsers">Add Users</a>
+
+        <a class="btn btn-primary" asp-area="" asp-controller="Admin" asp-action="ManageCourse">Add Courses</a>
     </div>
 
     <div class="dashboard-cards">
         <div class="stat-card">
-            <h3>120</h3>
+            @if (TempData["StudentCount"] != null)
+            {
+                <h3>@TempData["StudentCount"]</h3>
+            }
             <p>Total Students</p>
         </div>
         <div class="stat-card">
-            <h3>15</h3>
+            @if (TempData["CourseCount"] != null)
+            {
+                <h3>@TempData["CourseCount"]</h3>
+            }
             <p>Total Courses</p>
         </div>
         <div class="stat-card">
-            <h3>8</h3>
+            @if (TempData["TeacherCount"] != null)
+            {
+                <h3>@TempData["TeacherCount"]</h3>
+            }
             <p>Total Teachers</p>
         </div>
         <div class="stat-card">
@@ -68,7 +79,7 @@
         <div class="col-6">
             <h4 style="color:#3f3f6e" class="mb-4">Recently Added Students</h4>
             <div class="table-responsive">
-                @if (Model != null && Model.Count > 0)
+                @if (Model.Students != null && Model.Students.Count > 0)
                 {
                     <table class="table table-hover">
                         <thead>
@@ -76,37 +87,50 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Status</th>
-                                @* <th>Actions</th> *@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var user in Model)
+                            @foreach (var student in Model.Students)
                             {
                                 <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div>
-                                                <h6 class="mb-0">@user.Name</h6>
-                                                <small class="text-muted">ID:@user.Id</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>@user.Email</td>
-                                    <td><span class="badge bg-success">@user.Status</span></td>
-                                    @* <td> *@
-                                    @*     <button class="btn btn-soft btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editUserModal"> *@
-                                    @*         <i class="fas fa-edit"></i> *@
-                                    @*     </button> *@
-                                    @* </td> *@
+                                    <td>@student.Name</td>
+                                    <td>@student.Email</td>
+                                    <td><span class="badge bg-success">@student.Status</span></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 }
+
             </div>
         </div>
         <div class="col-6">
             <h4 style="color:#3f3f6e" class="mb-4">Recently Added Courses</h4>
+            <div class="table-responsive">
+                @if (Model.Courses != null && Model.Courses.Count > 0)
+                {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Course Name</th>
+                                <th>Program</th>
+                                <th>Code</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var course in Model.Courses)
+                            {
+                                <tr>
+                                    <td>@course.Title</td>
+                                    <td>@course.Program</td>
+                                    <td>@course.Code</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+            </div>
         </div>
     </div>
 </div>

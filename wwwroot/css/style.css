@@ -532,6 +532,45 @@ button:hover {
         color: red;
     }
 
+/* notification section */
+.notifications-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 300px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    display: none;
+    z-index: 1000;
+}
+
+    .notifications-panel.active {
+        display: block;
+    }
+
+.notifications-content {
+    position: relative;
+}
+
+.close-notifications {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.notification-card {
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
 
 /* Burger Menu Styles */
 .burger-menu {
@@ -1586,7 +1625,7 @@ code {
 /* Outline Button */
 .btn-outline {
     background-color: transparent;
-    border: 2px solid #3f3f6e;
+/*    border: 2px solid #3f3f6e;*/
     color: #3f3f6e;
 }
 

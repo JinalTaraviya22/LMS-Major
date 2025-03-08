@@ -10,7 +10,6 @@ namespace Major.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
-
         public string Status { get; set; }
 
         SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=LMS_db;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
@@ -24,7 +23,7 @@ namespace Major.Models
                 cmd.Parameters.AddWithValue("@email", am.Email);
                 cmd.Parameters.AddWithValue("@password", am.Password);
                 cmd.Parameters.AddWithValue("@role", am.Role);
-                cmd.Parameters.AddWithValue("@status",am.Status);
+                cmd.Parameters.AddWithValue("@status", am.Status);
                 con.Open();
                 int res = cmd.ExecuteNonQuery();
                 if (res >= 1)
@@ -43,30 +42,6 @@ namespace Major.Models
                 return false;
             }
         }
-
-        //public List<AdminModel> showData()
-        //{
-        //    List<AdminModel> userlist = new List<AdminModel>();
-
-        //    SqlCommand cmd = new SqlCommand("select * from User_tbl",con);
-        //    con.Open();
-        //    SqlDataReader dr = cmd.ExecuteReader();
-
-        //    while (dr.Read())
-        //    {
-        //        AdminModel user = new AdminModel()
-        //        {
-        //            Id = dr.GetInt32(0),
-        //            Name = dr.GetString(1),
-        //            Email = dr.GetString(2),
-        //            Password = dr.GetString(3),
-        //            Role = dr.GetString(4)
-        //        };
-        //        userlist.Add(user);
-        //    }
-        //    con.Close();
-        //    return userlist;
-        //}
 
         public List<AdminModel> showData(string? role = null, string? searchQuery = null, int? limit = null)
         {
@@ -118,7 +93,7 @@ namespace Major.Models
                         Email = dr.GetString(2),
                         Password = dr.GetString(3),
                         Role = dr.GetString(4),
-                        Status=dr.GetString(5)
+                        Status = dr.GetString(5)
                     };
                     userlist.Add(user);
                 }
@@ -145,6 +120,29 @@ namespace Major.Models
                 return res > 0;
             }
         }
+
+        public int countUsers(string? role = null)
+        {
+            int count = 0;
+            string query = "SELECT COUNT(*) FROM User_tbl"; // Correct query
+
+            if (!string.IsNullOrEmpty(role)) // Check if role is provided
+            {
+                query += " WHERE Role=@role"; // Add WHERE condition correctly
+            }
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                if (!string.IsNullOrEmpty(role))
+                {
+                    cmd.Parameters.AddWithValue("@role", role);
+                }
+                con.Open();
+                count = (int)cmd.ExecuteScalar(); // Get the count value
+            }
+            con.Close();
+            return count;
+        }
+
     }
 }
 

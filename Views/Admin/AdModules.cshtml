@@ -1,12 +1,20 @@
 ﻿@{
-    ViewData["Title"] = "Modules";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "AdModules";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 <div class="main-content">
-    @* @if (TempData["CourseId"] != null) *@
-    @* { *@
-    @*     <div class="alert alert-info">@TempData["CourseId"]</div> *@
-    @* } *@
+    
+    @* <div class="course-header" style="justify-content:end;">
+    @*     <button class="btn btn-outline"><i class="fas fa-user-plus"></i></button>
+    @*     <button class="btn btn-outline"><i class="fas fa-folder-plus"></i></button>
+    @* </div> *@
+    <div class="course-header" style="justify-content:end;">
+        <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#addUserModal">
+            <i class="fas fa-user-plus"></i>
+        </button>
+    </div>
+
     <!-- Header -->
     <div class="course-header" style="justify-content:center">
         <div class="course-tabs">
@@ -15,7 +23,7 @@
             <div class="tab-item" data-tab="resources">Resources</div>
             <div class="tab-item" data-tab="discussions">Discussions</div>
             <div class="tab-item" data-tab="assignment">Assignment</div>
-            <div class="tab-item" data-tab="quizes">Quizes</div>
+            @* <div class="tab-item" data-tab="quizes">Quizes</div> *@
         </div>
     </div>
 
@@ -30,6 +38,9 @@
                         6 modules
                     </div>
                 </div>
+            </div>
+            <div style="margin-left:auto">
+                <button class="btn btn-outline"><i class="fas fa-folder-plus"></i></button>
             </div>
         </div>
         <!-- Existing Modules List -->
@@ -123,6 +134,9 @@
                     </tr>
                 </table>
             </div>
+            <div style="margin-left:auto">
+                <button>Add Pdf</button>
+            </div>
         </div>
     </div>
 
@@ -150,6 +164,28 @@
                         <p>Lab Report Submitted</p>
                     </div>
                 </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Add Users</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm" method="post" asp-action="BulkEnroll" asp-controller="Admin">
+                    <input type="hidden" id="courseId" name="courseId" value="@TempData[" CourseId"]" />
+                    <div class="mb-3">
+                        <label for="userEmails" class="form-label">Enter Emails (comma-separated)</label>
+                        <textarea class="form-control" style="height:250px;width:100%" id="userEmails" name="userEmails" placeholder="example1@gmail.com, example2@gmail.com"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Users</button>
+                </form>
             </div>
         </div>
     </div>
@@ -194,5 +230,16 @@
             });
         });
     });
+           document.getElementById("addUserForm").addEventListener("submit", function(event) {
+        let emails = document.getElementById("userEmails").value;
+
+        if (!emails.trim()) {
+            alert("Please enter at least one email.");
+            event.preventDefault(); // Prevent form submission only if input is empty
+        }
+    });
+
 
 </script>
+
+

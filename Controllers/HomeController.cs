@@ -37,10 +37,12 @@ namespace Major.Controllers
         {
             return View();
         }
-        public IActionResult Modules()
+        public IActionResult Modules(int courseId)
         {
+            TempData["CourseId"] = courseId;
             return View();
         }
+
         public IActionResult Content()
         {
             return View();
