@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.Eventing.Reader;
 
 namespace Major.Models
@@ -13,7 +15,7 @@ namespace Major.Models
         SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=LMS_db;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
         public bool insert(CourseEnroll ce)
         {
-            string query = "INSERT INTO Course_Enroll_tbl (CourseId, UserEmail, Status) VALUES (@cid, @uid, @status)";
+            string query = "INSERT INTO Course_Enroll_tbl (CE_Course_Id, CE_User_Email, CE_Status) VALUES (@cid, @uid, @status)";
 
             using (SqlCommand cmd = new SqlCommand(query, con))
             {
@@ -36,5 +38,39 @@ namespace Major.Models
             }
         }
 
+        public List<CourseEnroll> showEnrolledStud(int? cid)
+        {
+            List<CourseEnroll> courseEnrollList = new List<CourseEnroll>();
+
+            string query = "SELECT * FROM Course_Enroll_tbl WHERE 1=1";
+            if (cid != null)
+            {
+                query += "AND CE_Course_Id=@cid";
+            }
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                if (cid != null)
+                {
+                    cmd.Parameters.AddWithValue("@cid", cid);
+                }
+
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    CourseEnroll ce = new CourseEnroll()
+                    {
+                        Id = dr.GetInt32(0),
+                        UserEmail = dr.GetString(2),
+                        Status = dr.GetString(3)
+                    };
+                    courseEnrollList.Add(ce);
+                }
+                con.Close();
+            }
+
+            return courseEnrollList;
+        }
     }
 }

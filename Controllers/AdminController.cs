@@ -173,8 +173,9 @@ namespace Major.Controllers
             {
                 return RedirectToAction("Login", "Auth");
             }
-            //TempData["CourseId"] = courseId;
-            return View();
+            TempData["CourseId"] = courseId;
+            List<CourseEnroll> courseEnrollList = ce.showEnrolledStud(cid:courseId);
+            return View(courseEnrollList);
         }
 
         //enroll users in course
@@ -186,14 +187,11 @@ namespace Major.Controllers
                 TempData["msg"] = "Please enter at least one student email.";
                 return RedirectToAction("ManageCourse", "Admin");
             }
-
             var emailList = userEmails.Split(',')
                                          .Select(e => e.Trim().ToLower())
                                          .Distinct()
                                          .ToList();
-
             int enrolledCount = 0;
-
             foreach (var email in emailList)
             {
                 var newEnrollment = new CourseEnroll

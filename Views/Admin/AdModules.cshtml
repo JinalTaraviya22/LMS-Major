@@ -1,20 +1,19 @@
-﻿@{
+﻿@model List<Major.Models.CourseEnroll>
+@{
     ViewData["Title"] = "AdModules";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+<style>
+    table,tr,td,th{
+        border:2px solid gray;
+    }
+</style>
 <div class="main-content">
-    
+
     @* <div class="course-header" style="justify-content:end;">
     @*     <button class="btn btn-outline"><i class="fas fa-user-plus"></i></button>
     @*     <button class="btn btn-outline"><i class="fas fa-folder-plus"></i></button>
     @* </div> *@
-    <div class="course-header" style="justify-content:end;">
-        <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#addUserModal">
-            <i class="fas fa-user-plus"></i>
-        </button>
-    </div>
-
     <!-- Header -->
     <div class="course-header" style="justify-content:center">
         <div class="course-tabs">
@@ -23,7 +22,7 @@
             <div class="tab-item" data-tab="resources">Resources</div>
             <div class="tab-item" data-tab="discussions">Discussions</div>
             <div class="tab-item" data-tab="assignment">Assignment</div>
-            @* <div class="tab-item" data-tab="quizes">Quizes</div> *@
+            <div class="tab-item" data-tab="enrollment">Enrollments</div>
         </div>
     </div>
 
@@ -167,6 +166,48 @@
             </div>
         </div>
     </div>
+
+    <!-- Enrolled Students list Section -->
+    <div class="tab-content" id="enrollment-content">
+        <div class="course-header">
+            <div>
+                <h3>Enrolled List</h3>
+            </div>
+            <div style="margin-left:auto">
+                <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                    <i class="fas fa-user-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table>
+                        <tr>
+                            <th>Id</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        @foreach (CourseEnroll item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.UserEmail</td>
+                                <td>@item.Status</td>
+                                <td>
+                                    <button class="btn btn-soft btn-sm delete-course-btn"
+                                            data-course-id="@item.Id">
+                                        <i class="fas fa-trash" style="color:red"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Add User Modal -->
@@ -179,7 +220,7 @@
             </div>
             <div class="modal-body">
                 <form id="addUserForm" method="post" asp-action="BulkEnroll" asp-controller="Admin">
-                    <input type="hidden" id="courseId" name="courseId" value="@TempData[" CourseId"]" />
+                    <input type="hidden" id="courseId" name="courseId" value="@TempData["CourseId"]" />
                     <div class="mb-3">
                         <label for="userEmails" class="form-label">Enter Emails (comma-separated)</label>
                         <textarea class="form-control" style="height:250px;width:100%" id="userEmails" name="userEmails" placeholder="example1@gmail.com, example2@gmail.com"></textarea>
