@@ -11,6 +11,7 @@ namespace Major.Models
         public int CourseId { get; set; }
         public string UserEmail { get; set; }
         public string Status { get; set; }
+        public string UserRole { get; set; }
 
         SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=LMS_db;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
         public bool insert(CourseEnroll ce)
@@ -38,15 +39,55 @@ namespace Major.Models
             }
         }
 
+        //public List<CourseEnroll> showEnrolledStud(int? cid)
+        //{
+        //    List<CourseEnroll> courseEnrollList = new List<CourseEnroll>();
+
+        //    string query = "SELECT * FROM Course_Enroll_tbl WHERE 1=1";
+        //    if (cid != null)
+        //    {
+        //        query += "AND CE_Course_Id=@cid";
+        //    }
+        //    using (SqlCommand cmd = new SqlCommand(query, con))
+        //    {
+        //        if (cid != null)
+        //        {
+        //            cmd.Parameters.AddWithValue("@cid", cid);
+        //        }
+
+        //        con.Open();
+        //        SqlDataReader dr = cmd.ExecuteReader();
+
+        //        while (dr.Read())
+        //        {
+        //            CourseEnroll ce = new CourseEnroll()
+        //            {
+        //                Id = dr.GetInt32(0),
+        //                UserEmail = dr.GetString(2),
+        //                Status = dr.GetString(3)
+        //            };
+        //            courseEnrollList.Add(ce);
+        //        }
+        //        con.Close();
+        //    }
+
+        //    return courseEnrollList;
+        //}
         public List<CourseEnroll> showEnrolledStud(int? cid)
         {
             List<CourseEnroll> courseEnrollList = new List<CourseEnroll>();
 
-            string query = "SELECT * FROM Course_Enroll_tbl WHERE 1=1";
+            string query = @"
+        SELECT ce.*, u.Role 
+        FROM Course_Enroll_tbl ce
+        JOIN User_tbl u ON ce.CE_User_Email = u.Email 
+        WHERE 1=1";
+
             if (cid != null)
             {
-                query += "AND CE_Course_Id=@cid";
+                query += " AND CE_Course_Id = @cid";
             }
+
             using (SqlCommand cmd = new SqlCommand(query, con))
             {
                 if (cid != null)
@@ -63,7 +104,8 @@ namespace Major.Models
                     {
                         Id = dr.GetInt32(0),
                         UserEmail = dr.GetString(2),
-                        Status = dr.GetString(3)
+                        Status = dr.GetString(3),
+                        UserRole = dr.GetString(4) // Assuming UserRole is the 5th column
                     };
                     courseEnrollList.Add(ce);
                 }
@@ -71,6 +113,21 @@ namespace Major.Models
             }
 
             return courseEnrollList;
+        }
+
+
+
+        public bool delEnrolledUser(int id)
+        {
+            string query = "delete from Course_Enroll_tbl where CE_Id=@cid";
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue ("cid", id);
+                con.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                con.Close();
+                return rowsAffected > 0;
+            }
         }
     }
 }

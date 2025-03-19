@@ -1,6 +1,7 @@
 ﻿using Major.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Major.Controllers
         AdminModel admin = new AdminModel(); //for managing user user
         CourseModel course = new CourseModel();//for managing course
         CourseEnroll ce=new CourseEnroll();//for enrollment
+        ModulesModel modules = new ModulesModel();//for modules
         public IActionResult AdIndex()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
@@ -104,6 +106,8 @@ namespace Major.Controllers
             return RedirectToAction("ManageUsers");
         }
 
+        //course crud
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddCourse(CourseModel crm, IFormFile ImageFile)
@@ -166,7 +170,7 @@ namespace Major.Controllers
             return RedirectToAction("ManageCourse");
         }
 
-        public IActionResult AdModules(int courseId)
+        public IActionResult AdModules(int courseId,string courseName)
         {
             string? userRole = HttpContext.Session.GetString("UserRole");
             if (userRole != "Admin")
@@ -174,7 +178,9 @@ namespace Major.Controllers
                 return RedirectToAction("Login", "Auth");
             }
             TempData["CourseId"] = courseId;
+            TempData["CourseName"] = courseName;
             List<CourseEnroll> courseEnrollList = ce.showEnrolledStud(cid:courseId);
+            List<ModulesModel> moduleList=modules.showCourseData(courseId);
             return View(courseEnrollList);
         }
 
@@ -209,6 +215,29 @@ namespace Major.Controllers
             TempData["msg"] = $"{enrolledCount} students enrolled successfully!";
             return RedirectToAction("ManageCourse", "Admin");
         }
+        public IActionResult deleteEnrolled(int cid)
+        {
+            string? userRole = HttpContext.Session.GetString("UserRole");
+            if (userRole != "Admin")
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+            bool res = ce.delEnrolledUser(cid);
+            TempData["msg"] = res ? "User Removed Successfully!" : "Error in Removing User.";
 
+            return RedirectToAction("AdModules");
+        }
+        [HttpPost]
+        public IActionResult AddModule(ModulesModel md)
+        {
+            string? userRole = HttpContext.Session.GetString("UserRole");
+            if (userRole != "Admin")
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+            bool res = modules.InsertModule(md);
+            TempData["msg"] = res ? "Module Created Successfully" : "Error in Creating Module.";
+            return RedirectToAction("AdModules");
+        }
     }
 }

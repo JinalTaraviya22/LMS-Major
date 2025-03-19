@@ -3,13 +3,12 @@
     ViewData["Title"] = "AdModules";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<style>
-    table,tr,td,th{
-        border:2px solid gray;
-    }
-</style>
-<div class="main-content">
 
+<div class="main-content">
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-info">@TempData["msg"]</div>
+    }
     @* <div class="course-header" style="justify-content:end;">
     @*     <button class="btn btn-outline"><i class="fas fa-user-plus"></i></button>
     @*     <button class="btn btn-outline"><i class="fas fa-folder-plus"></i></button>
@@ -29,8 +28,7 @@
     <div class="tab-content active" id="modules-content">
         <div class="course-header">
             <div>
-                <h1 class="course-title">Operating Systems</h1>
-                @* <p>By Mark Lee</p> *@
+                <h1 class="course-title">@TempData["CourseName"]</h1>
                 <div class="course-info">
                     <div class="info-item">
                         <span class="material-icons">library_books</span>
@@ -39,7 +37,9 @@
                 </div>
             </div>
             <div style="margin-left:auto">
-                <button class="btn btn-outline"><i class="fas fa-folder-plus"></i></button>
+                <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#addModuleModal">
+                    <i class="fas fa-folder-plus"></i>
+                </button>
             </div>
         </div>
         <!-- Existing Modules List -->
@@ -134,7 +134,11 @@
                 </table>
             </div>
             <div style="margin-left:auto">
-                <button>Add Pdf</button>
+                <button class="btn btn-outline">Add Pdf</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
             </div>
         </div>
     </div>
@@ -171,7 +175,7 @@
     <div class="tab-content" id="enrollment-content">
         <div class="course-header">
             <div>
-                <h3>Enrolled List</h3>
+                <h3>Enrolled Users</h3>
             </div>
             <div style="margin-left:auto">
                 <button class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#addUserModal">
@@ -182,28 +186,45 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th>Id</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                        @foreach (CourseEnroll item in Model)
-                        {
-                            <tr>
-                                <td>@item.Id</td>
-                                <td>@item.UserEmail</td>
-                                <td>@item.Status</td>
-                                <td>
-                                    <button class="btn btn-soft btn-sm delete-course-btn"
-                                            data-course-id="@item.Id">
-                                        <i class="fas fa-trash" style="color:red"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        }
-                    </table>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var a = 1;
+                                }
+                                @foreach (var course in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @course.UserEmail<br />
+                                            <small class="text-muted">Sr No:@a</small>
+                                        </td>
+                                        <td>@course.UserRole</td>
+                                        <td>@course.Status</td>
+                                        <td>
+                                            <form id="deleteCourseForm" method="post" asp-action="deleteEnrolled" asp-controller="Admin">
+                                                <input type="hidden" name="cid" value="@course.Id">
+                                                <button type="submit" class="btn btn-soft btn-sm delete-course-btn">
+                                                    <i class="fas fa-trash" style="color:red"></i>
+                                                </button>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+                                    a++;
+                                }
+                            </tbody>
+                        </table>
+                    }
                 </div>
             </div>
         </div>
@@ -231,6 +252,58 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="addModuleModal" tabindex="-1" aria-labelledby="addModuleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModuleModalLabel">Add Module & Content</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between">
+                    <!-- Form 1: Enter Module Name -->
+                    <form id="moduleForm" method="post" asp-action="AddModule" asp-controller="Admin" class="w-50 p-2">
+                        <h4>Add Module</h4>
+                        <input type="hidden" id="courseId" name="courseId" value="@TempData["CourseId"]" />
+                        <div class="mb-3">
+                            <label for="moduleName" class="form-label">Module Name</label>
+                            <input type="text" class="form-control" id="moduleName" name="moduleName" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Module</button>
+                    </form>
+
+                    <!-- Form 2: Add Content to Module -->
+                    <form id="contentForm" method="post" asp-action="AddContent" asp-controller="Admin" class="w-50 p-2">
+                        <h4>Add Content Details</h4>
+                        <div class="mb-3">
+                            <label for="selectModule" class="form-label">Select Module</label>
+                            <select class="form-control" id="selectModule" name="moduleId">
+                                <option value="">Select a Module</option>
+                                <!-- Populate dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contentHeading" class="form-label">Content Heading</label>
+                            <input type="text" class="form-control" id="contentHeading" name="contentHeading" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contentType" class="form-label">Content Type</label>
+                            <select class="form-control" id="contentType" name="contentType">
+                                <option value="Content">Content</option>
+                                <option value="Assignment">Assignment</option>
+                                @* <option value="Text">Text</option> *@
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Content</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
     const moduleHeaders = document.querySelectorAll(".module-header");
@@ -278,6 +351,11 @@
             alert("Please enter at least one email.");
             event.preventDefault(); // Prevent form submission only if input is empty
         }
+    });
+
+    document.getElementById("openModuleForm").addEventListener("click", function () {
+        let formContainer = document.getElementById("moduleFormContainer");
+        formContainer.style.display = formContainer.style.display === "none" ? "block" : "none";
     });
 
 
